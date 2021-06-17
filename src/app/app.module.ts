@@ -3,10 +3,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { CaesarComponent } from './caesar/caesar.component';
+import { HillComponent } from './hill/hill.component';
+import { PlayfairComponent } from './playfair/playfair.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    LoadingSpinnerComponent,
+    CaesarComponent,
+    HillComponent,
+    PlayfairComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
