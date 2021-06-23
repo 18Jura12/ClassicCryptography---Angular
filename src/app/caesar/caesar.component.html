@@ -19,9 +19,9 @@
   </div>
 </div>
   <form
-    *ngIf="tab != 'info'"
-    [formGroup]="tab == 'encript' ? cipherForm : decipherForm"
-    (ngSubmit)="tab == 'encript' ? onSubmitCipher() : onSubmitDecipher()">
+    *ngIf="tab == 'encript'"
+    [formGroup]="cipherForm"
+    (ngSubmit)="onSubmitCipher()">
     <div class="list-group-item clearfix">
       <div class="row">
         <div class="col-xs-12">
@@ -29,13 +29,13 @@
             <label
               id="textLabel"
               class="badge badge-pill badge-dark"
-              [for]="tab == 'encript' ? 'openText' : 'cipher'">
-              {{ tab == 'encript' ? 'openText' : 'cipher'}}:
+              for="openText">
+              Open Text:
             </label> &nbsp;
             <textarea
-              [id]="tab == 'encript' ? 'openText' : 'cipher'"
+              id="openText"
               cols="50" rows="10"
-              [formControlName]="tab == 'encript' ? 'openText' : 'cipher'"
+              formControlName="openText"
               ></textarea>
           </div>
         </div>
@@ -74,3 +74,60 @@
       </div>
     </div>
   </form>
+  <form
+    *ngIf="tab == 'decript'"
+    [formGroup]="decipherForm"
+    (ngSubmit)="onSubmitDecipher()">
+    <div class="list-group-item clearfix">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label
+              id="textLabel"
+              class="badge badge-pill badge-dark"
+              for="cipher">
+              Cipher:
+            </label> &nbsp;
+            <textarea
+              id="cipher"
+              cols="50" rows="10"
+              formControlName="cipher"
+              ></textarea>
+          </div>
+        </div>
+        <div class="col-xs-12 offset-1">
+          <div class="form-group">
+            <label
+              class="badge badge-pill badge-dark"
+              for="shift">
+              shift:
+            </label> &nbsp;
+            <input
+              type="number"
+              id="shift"
+              formControlName="shift">
+            <br>
+            <label
+              class="badge badge-pill badge-dark mt-3"
+              id="textLabel"
+              for="alphabet">
+              alphabet:
+            </label> &nbsp;
+            <textarea
+              id="alphabet"
+              cols="20" rows="6"
+              class="mt-3"
+              formControlName="alphabet"
+              ></textarea>
+              <br>
+              <button
+                type="submit"
+                class="btn btn-outline-success mt-1">
+                {{ tab | uppercase }}
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+

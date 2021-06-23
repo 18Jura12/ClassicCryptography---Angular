@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subject, Subscription } from 'rxjs';
 import { CaesarService } from './caesar.service';
 
 @Component({
@@ -7,20 +8,30 @@ import { CaesarService } from './caesar.service';
   templateUrl: './caesar.component.html',
   styleUrls: ['./caesar.component.css']
 })
-export class CaesarComponent implements OnInit {
+export class CaesarComponent implements OnInit, OnDestroy {
   tab = 'info';
   cipherForm: FormGroup;
   decipherForm: FormGroup;
+  tabChanged: Subject<string> = new Subject();
+  sub: Subscription;
 
   constructor(
     private caesarService: CaesarService
   ) { }
 
   ngOnInit(): void {
-    this.initForms();
+    this.sub = this.tabChanged.subscribe(
+      (tab: string) => {
+        if(tab == 'encript') {
+          this.initCipherForm();
+        } else if(tab == 'decript') {
+          this.initDecipherForm();
+        }
+      }
+    );
   }
 
-  initForms() {
+  initCipherForm() {
     this.cipherForm = new FormGroup({
       'openText': new FormControl('', Validators.required),
       'shift': new FormControl(0, [
@@ -30,6 +41,9 @@ export class CaesarComponent implements OnInit {
       'alphabet': new FormControl('ABCDEFGHIJKLMNOPQRSTUVWXYZ', Validators.required)
     });
 
+  }
+
+  initDecipherForm() {
     this.decipherForm = new FormGroup({
       'cipher': new FormControl('', Validators.required),
       'shift': new FormControl(0, [
@@ -41,6 +55,7 @@ export class CaesarComponent implements OnInit {
   }
 
   onSubmitCipher() {
+    console.log("ovdje");
     let values = this.cipherForm.getRawValue();
     this.caesarService.getEncripted(
       values['openText'], values['shift'], values['alphabet']
@@ -57,7 +72,7 @@ export class CaesarComponent implements OnInit {
 
   onSubmitDecipher() {
     let values = this.decipherForm.getRawValue();
-    this.caesarService.getEncripted(
+    this.caesarService.getDecripted(
       values['cipher'], values['shift'], values['alphabet']
     ).subscribe(
       (resData) => {
@@ -72,6 +87,11 @@ export class CaesarComponent implements OnInit {
 
   switchTab(newTab: string) {
     this.tab = newTab;
+    this.tabChanged.next(newTab);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
 }
