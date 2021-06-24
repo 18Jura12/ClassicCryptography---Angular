@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Result } from '../result.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class CaesarService {
   ) {}
 
   getEncripted(openText: string, shift: number, alphabet: string) {
-    return this.http.get(
+    return this.http.get<Result>(
       'http://localhost:8080/api/caesar/cipher',
       {
         params:
@@ -24,7 +25,7 @@ export class CaesarService {
   }
 
   getDecripted(cipher: string, shift: number, alphabet: string) {
-    return this.http.get(
+    return this.http.get<Result>(
       'http://localhost:8080/api/caesar/decipher',
       {
         params:
