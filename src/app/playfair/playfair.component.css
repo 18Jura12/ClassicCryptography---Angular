@@ -1,0 +1,10 @@
+#textLabel {
+  vertical-align: top;
+}
+
+#box {
+  width: 30px;
+  display: inline-block;
+  color: blueviolet;
+  text-align: center;
+}

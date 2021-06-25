@@ -1,1 +1,107 @@
-<p>playfair works!</p>
+<div class="row my-1">
+  <div class="col-md-4">
+    <button
+      type="button"
+      class="btn btn-secondary btn-block"
+      (click)="switchTab('info')">Info</button>
+  </div>
+  <div class="col-md-4">
+    <button
+      type="button"
+      class="btn btn-success btn-block"
+      (click)="switchTab('encript')">Encript</button>
+  </div>
+  <div class="col-md-4">
+    <button
+      type="button"
+      class="btn btn-warning btn-block"
+      (click)="switchTab('decript')">Decript</button>
+  </div>
+</div>
+<form
+    *ngIf="tab != 'info'"
+    [formGroup]="cipherForm"
+    (ngSubmit)="onSubmitForm()">
+    <div class="list-group-item clearfix">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label
+              id="textLabel"
+              class="badge badge-pill badge-dark"
+              for="text">
+              {{ tab == 'encript' ? 'Open Text:' : 'Cipher:' }}
+            </label> &nbsp;
+            <textarea
+              id="text"
+              cols="50" rows="10"
+              formControlName="text"
+              ></textarea>
+          </div>
+        </div>
+        <div class="col-xs-12 offset-1">
+          <div class="form-group">
+            <label
+              class="badge badge-pill badge-dark"
+              for="key">
+              Key:
+            </label> &nbsp;
+            <input
+              type="text"
+              id="key"
+              formControlName="key">
+            <br><br>
+            <label
+              class="badge badge-pill badge-dark mt-3"
+              id="textLabel">
+              Language:
+            </label> <br>
+            <input
+              type="radio"
+              name="language"
+              id="cro"
+              value="CROATIAN"
+              formControlName="language" checked>
+              <label for="cro">&nbsp;croatian</label>
+              &nbsp;&nbsp;
+              <input
+              type="radio"
+              name="language"
+              id="en"
+              value="ENGLISH"
+              formControlName="language">
+              <label for="cro">&nbsp;english</label>
+              <br><br>
+              <button
+                type="submit"
+                class="btn btn-outline-success mt-1">
+                {{ tab | uppercase }}
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div
+    *ngIf="result">
+    <div class="row m-1">
+      <div class="col-xs-12">
+        <span class="badge badge-pill badge-dark mt-3">
+          Result:
+        </span> &nbsp;
+        <span>{{ textResult }}</span>
+      </div>
+      <div class="col-xs-12 offset-2">
+        <span class="badge badge-pill badge-dark mt-3">
+          Matrix:
+        </span>
+      </div>
+      <div class="col-xs-12 offset-1">
+        <div *ngFor="let letters of matrix">
+          <span *ngFor="let letter of letters.split('')">
+            <span id="box">{{letter}}</span>
+          </span><br>
+        </div>
+      </div>
+    </div>
+  </div>
