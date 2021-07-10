@@ -10,7 +10,7 @@ import { PlayfairService } from './playfair.service';
 export class PlayfairComponent implements OnInit {
   tab = 'info';
   result = false;
-
+  isLoading = false;
   textResult: string;
   matrix: string[];
   cipherForm: FormGroup;
@@ -36,18 +36,22 @@ export class PlayfairComponent implements OnInit {
   }
 
   onSubmitForm() {
+    this.result = false;
+    this.isLoading = true;
     let values = this.cipherForm.getRawValue();
     if(this.tab == 'encript') {
       this.playfairService.getEncripted(
         values['text'], values['key'], values['language']
       ).subscribe(
         (resData) => {
+          this.isLoading = false;
           this.result = true;
           console.log(resData);
           this.textResult = resData.result;
           this.matrix = resData.matrix;
         },
         (err) => {
+          this.isLoading = false;
           console.log(err);
         }
         );
@@ -56,12 +60,14 @@ export class PlayfairComponent implements OnInit {
         values['text'], values['key'], values['language']
       ).subscribe(
         (resData) => {
+          this.isLoading = false;
           this.result = true;
           console.log(resData);
           this.textResult = resData.result;
           this.matrix = resData.matrix;
         },
         (err) => {
+          this.isLoading = false;
           console.log(err);
         }
         );

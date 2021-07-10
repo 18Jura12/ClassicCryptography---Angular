@@ -1,3 +1,11 @@
 #textLabel {
   vertical-align: top;
 }
+
+input, textarea {
+  background-color: orange;
+}
+
+input:focus, textarea:focus {
+  background-color: darkcyan;
+}

@@ -18,3 +18,152 @@
       (click)="switchTab('decript')">Decript</button>
   </div>
 </div>
+<form
+    *ngIf="tab != 'info'"
+    [formGroup]="cipherForm"
+    (ngSubmit)="onSubmitForm()">
+    <div class="list-group-item clearfix bg-danger">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label
+              id="textLabel"
+              class="badge badge-pill badge-dark"
+              for="text">
+              {{ tab == 'encript' ? 'Open Text:' : 'Cipher:' }}
+            </label> &nbsp;
+            <textarea
+              id="text"
+              cols="50" rows="10"
+              formControlName="text"
+              ></textarea>
+          </div>
+        </div>
+        <div class="col-xs-12 offset-1">
+          <div class="form-group">
+            <ng-container *ngIf="tab == 'decript'">
+              <input
+                type="radio"
+                value="yes"
+                formControlName="withMatrix"
+                (click)="addSize()" checked> With Key
+              &nbsp;&nbsp;
+              <input
+                type="radio"
+                value="no"
+                formControlName="withMatrix"
+                (click)="removeSize()"> Without Key
+              <br>
+            </ng-container>
+            <ng-container
+              *ngIf="cipherForm.get('withMatrix').value == 'yes'">
+              <div class="form-group">
+                <input
+                  type="radio"
+                  value="2"
+                  name="size"
+                  formControlName="size"
+                  (click)="addMatrix(2)"> 2x2
+                <input
+                  type="radio"
+                  value="3"
+                  name="size"
+                  formControlName="size"
+                  (click)="addMatrix(3)"> 3x3
+                <input
+                  type="radio"
+                  value="4"
+                  name="size"
+                  formControlName="size"
+                  (click)="addMatrix(4)"> 4x4
+                <br>
+                <ng-container *ngIf="matrixInput">
+                  <div
+                    *ngFor="let row of matrixRows; let i=index">
+                    <input
+                      type="number"
+                      id="mat"
+                      *ngFor="let element of getRowElements(i)"
+                      [formControl]="convertToFormControl(element)">
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-xs-12 offset-1">
+          <div class="form-group">
+            <ng-container *ngIf="matrixInput">
+              <label
+                class="badge badge-pill badge-dark mt-3"
+                id="textLabel"
+                for="alphabet">
+                alphabet:
+              </label> &nbsp;
+              <textarea
+                id="alphabet"
+                cols="20" rows="6"
+                class="mt-3"
+                formControlName="alphabet"
+                ></textarea>
+              <br>
+            </ng-container>
+              <button
+                type="submit"
+                class="btn btn-outline-warning mt-1">
+                {{ tab | uppercase }}
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div style="text-align: center;">
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+  </div>
+  <div
+    *ngIf="result && tab != 'info'
+    "
+    class="container">
+    <span class="badge badge-pill badge-dark mt-3">
+      Result:
+    </span> &nbsp;
+    <span>{{ textResult }}</span>
+  </div>
+  <div
+    *ngIf="tab == 'info'"
+    class="d-flex justify-content-center">
+    <div class="card w-75 m-3 text-white bg-secondary align-middle">
+      <h4 class="jumbotron text-secondary" style="text-align: center;">
+        Hill Cipher
+      </h4>
+      <h6 class="mx-3">
+        This is a polygraphic substitution cipher.
+        <br>
+        Matrix modulo number of letters in the alphabet is used for the key in a way that open text is being encrypted transforming in its numerical equivalent and multiplying it in a sensical way with the key, depending on key's format.
+        <br><br>
+        <u>Encription:</u>
+        <br>
+        &nbsp;- open text, key and an alphabet are input <br>
+        &nbsp;- open text should contain only the letters from provided alphabet, can contain spaces, no other punctuation (unless in alphabet) <br>
+        &nbsp;- key can have three formats: 2x2, 3x3 and 4x4; it also has to be invertible (det not equal to 0) <br>
+        &nbsp;- alphabet shouldn't have repeating letters <br>
+        &nbsp;- output is the cipher<br>
+        <br>
+        <u>Decription with key:</u>
+        <br>
+        &nbsp;- encrypted text, key and an alphabet are input <br>
+        &nbsp;- open text should contain only the letters from provided alphabet, can contain spaces, no other punctuation (unless in alphabet) <br>
+        &nbsp;- key can have three formats: 2x2, 3x3 and 4x4; it also has to be invertible (det not equal to 0) <br>
+        &nbsp;- alphabet shouldn't have repeating letters <br>
+        &nbsp;- output is the open text <br>
+        <br>
+        <u>Decription without key:</u>
+        <br>
+        &nbsp;- input is the encrypted text<br>
+        &nbsp;- open text should contain only the letters from croatian alphabet, can contain spaces, no other punctuation<br>
+        &nbsp;- alphabet shouldn't have repeating letters<br>
+        &nbsp;- output is the list of all possiblilities for open text that make a sequence of croatian words<br>
+      </h6>
+    </div>
+  </div>

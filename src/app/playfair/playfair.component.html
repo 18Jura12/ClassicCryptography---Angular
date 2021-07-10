@@ -22,7 +22,7 @@
     *ngIf="tab != 'info'"
     [formGroup]="cipherForm"
     (ngSubmit)="onSubmitForm()">
-    <div class="list-group-item clearfix">
+    <div class="list-group-item clearfix bg-danger">
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -74,7 +74,7 @@
               <br><br>
               <button
                 type="submit"
-                class="btn btn-outline-success mt-1">
+                class="btn btn-outline-warning mt-1">
                 {{ tab | uppercase }}
               </button>
           </div>
@@ -82,8 +82,11 @@
       </div>
     </div>
   </form>
+  <div style="text-align: center;">
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+  </div>
   <div
-    *ngIf="result">
+    *ngIf="result && tab != 'info'">
     <div class="row m-1">
       <div class="col-xs-12">
         <span class="badge badge-pill badge-dark mt-3">
@@ -103,5 +106,34 @@
           </span><br>
         </div>
       </div>
+    </div>
+  </div>
+  <div
+    *ngIf="tab == 'info'"
+    class="d-flex justify-content-center">
+    <div class="card w-75 m-3 text-white bg-secondary align-middle">
+      <h4 class="jumbotron text-secondary" style="text-align: center;">
+        Playfair Cipher
+      </h4>
+      <h6 class="mx-3">
+        This is a polyalphabetic cipher.
+        <br>
+        The alphabet is divided in letters forming a squared matrix and the key is added to the begining of it without repeating letters. The used letters are then subtracted from the alphabet in matrix. <br>
+        Finally, text is divided in pairs of letters and the matrix is used to encrypt/decrypt those pairs.
+        <br><br>
+        <u>Encription:</u>
+        <br>
+        &nbsp;- open text, key and language (croatian or english) are input <br>
+        &nbsp;- open text should contain only the letters from choosen language, can contain spaces, no other punctuation <br>
+        &nbsp;- key should be any sequence of letters from choosen language<br>
+        &nbsp;- output is the cipher<br>
+        <br>
+        <u>Decription:</u>
+        <br>
+        &nbsp;- encrypted text, key and language are input <br>
+        &nbsp;- encrypted text should contain only the letters from choosen language, can contain spaces, no other punctuation <br>
+        &nbsp;- key should be any sequence of letters from choosen language<br>
+        &nbsp;- output is the open text <br>
+      </h6>
     </div>
   </div>

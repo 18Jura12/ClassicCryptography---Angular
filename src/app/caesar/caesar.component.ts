@@ -12,6 +12,7 @@ export class CaesarComponent implements OnInit {
   result = false;
   textResult: string;
   cipherForm: FormGroup;
+  isLoading = false;
 
   constructor(
     private caesarService: CaesarService
@@ -34,17 +35,21 @@ export class CaesarComponent implements OnInit {
   }
 
   onSubmitForm() {
+    this.result = false;
+    this.isLoading = true;
     let values = this.cipherForm.getRawValue();
     if(this.tab == 'encript') {
       this.caesarService.getEncripted(
         values['text'], values['shift'], values['alphabet']
       ).subscribe(
         (resData) => {
+          this.isLoading = false;
           this.result = true;
           console.log(resData);
           this.textResult = resData.result;
         },
         (err) => {
+          this.isLoading = false;
           console.log(err);
         }
         );
@@ -53,11 +58,13 @@ export class CaesarComponent implements OnInit {
         values['text'], values['shift'], values['alphabet']
       ).subscribe(
         (resData) => {
+          this.isLoading = false;
           this.result = true;
           console.log(resData);
           this.textResult = resData.result;
         },
         (err) => {
+          this.isLoading = false;
           console.log(err);
         }
         );

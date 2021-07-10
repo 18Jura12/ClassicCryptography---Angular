@@ -22,7 +22,7 @@
     *ngIf="tab != 'info'"
     [formGroup]="cipherForm"
     (ngSubmit)="onSubmitForm()">
-    <div class="list-group-item clearfix">
+    <div class="list-group-item clearfix bg-danger">
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
@@ -66,7 +66,7 @@
               <br>
               <button
                 type="submit"
-                class="btn btn-outline-success mt-1">
+                class="btn btn-outline-warning mt-1">
                 {{ tab | uppercase }}
               </button>
           </div>
@@ -75,12 +75,40 @@
     </div>
   </form>
   <div
-    *ngIf="result"
+    *ngIf="result && tab != 'info'"
     class="container">
     <span class="badge badge-pill badge-dark mt-3">
       Result:
     </span> &nbsp;
     <span>{{ textResult }}</span>
+  </div>
+  <div
+    *ngIf="tab == 'info'"
+    class="d-flex justify-content-center">
+    <div class="card w-75 m-3 text-white bg-secondary align-middle">
+      <h4 class="jumbotron text-secondary" style="text-align: center;">
+        Caesar Cipher
+      </h4>
+      <h6 class="mx-3">
+        This is a substitution cipher.
+        <br>
+        The alphabet is being shifted in a circular way mapping the letters to their cipher letter.
+        <br><br>
+        <u>Encription:</u>
+        <br>
+        &nbsp;- open text, shift and an alphabet are input <br>
+        &nbsp;- open text should contain only the letters from provided alphabet, can contain spaces, no other punctuation (unless in alphabet) <br>
+        &nbsp;- alphabet shouldn't have repeating letters <br>
+        &nbsp;- output is the cipher<br>
+        <br>
+        <u>Decription:</u>
+        <br>
+        &nbsp;- encrypted text, shift and an alphabet are input <br>
+        &nbsp;- encrypted text should contain only the letters from provided alphabet, can contain spaces, no other punctuation (unless in alphabet) <br>
+        &nbsp;- alphabet shouldn't have repeating letters <br>
+        &nbsp;- output is the open text <br>
+      </h6>
+    </div>
   </div>
 
 
